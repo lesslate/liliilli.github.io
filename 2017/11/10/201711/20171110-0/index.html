@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="std::vector기존의 std::vector&amp;lt;_Ty&amp;gt; 이라는 템플릿 클래스가 있어, 다른 형태는 이를 써도 되지만 bool 형태는 공간을 최적화 하기 위해 비트셋을 이용하는 방법으로 약간 특수화되서 제공된다. 따라서 bool값을 저장할 때 한 원소를 저장하는">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="std::vector&lt;bool&gt;">
+<meta property="og:url" content="http://yoursite.com/2017/11/10/201711/20171110-0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="std::vector기존의 std::vector&amp;lt;_Ty&amp;gt; 이라는 템플릿 클래스가 있어, 다른 형태는 이를 써도 되지만 bool 형태는 공간을 최적화 하기 위해 비트셋을 이용하는 방법으로 약간 특수화되서 제공된다. 따라서 bool값을 저장할 때 한 원소를 저장하는데 sizeof(bool) 을 쓰지 않고 대신에 단일 비트을 써서 저장한다. 12345">
+<meta property="og:updated_time" content="2017-11-10T04:11:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="std::vector&lt;bool&gt;">
+<meta name="twitter:description" content="std::vector기존의 std::vector&amp;lt;_Ty&amp;gt; 이라는 템플릿 클래스가 있어, 다른 형태는 이를 써도 되지만 bool 형태는 공간을 최적화 하기 위해 비트셋을 이용하는 방법으로 약간 특수화되서 제공된다. 따라서 bool값을 저장할 때 한 원소를 저장하는데 sizeof(bool) 을 쓰지 않고 대신에 단일 비트을 써서 저장한다. 12345">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>std::vector&lt;bool&gt;</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/11/10/201711/20171110-1/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/11/05/201711/20171105-week/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/11/10/201711/20171110-0/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/11/10/201711/20171110-0/&text=std::vector&lt;bool&gt;"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/11/10/201711/20171110-0/&title=std::vector&lt;bool&gt;"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/11/10/201711/20171110-0/&is_video=false&description=std::vector&lt;bool&gt;"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=std::vector&lt;bool&gt;&body=Check out this article: http://yoursite.com/2017/11/10/201711/20171110-0/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/11/10/201711/20171110-0/&title=std::vector&lt;bool&gt;"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-0/&title=std::vector&lt;bool&gt;"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-0/&title=std::vector&lt;bool&gt;"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-0/&title=std::vector&lt;bool&gt;"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/11/10/201711/20171110-0/&name=std::vector&lt;bool&gt;&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#std-vector"><span class="toc-number">1.</span> <span class="toc-text">std::vector</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#사용-시-주의점"><span class="toc-number">1.1.</span> <span class="toc-text">사용 시 주의점</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#주의점-5번-심화-탐구"><span class="toc-number">1.2.</span> <span class="toc-text">주의점 5번 심화 탐구</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#느낀-것"><span class="toc-number">1.3.</span> <span class="toc-text">느낀 것.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#출처"><span class="toc-number">1.4.</span> <span class="toc-text">출처</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        std::vector&lt;bool&gt;
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-11-10T02:18:15.000Z" itemprop="datePublished">2017-11-10</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/C/">C++</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="std-vector"><a href="#std-vector" class="headerlink" title="std::vector"></a>std::vector<bool></bool></h1><p>기존의 <code>std::vector&lt;_Ty&gt;</code> 이라는 템플릿 클래스가 있어, 다른 형태는 이를 써도 되지만 bool 형태는 <em>공간을 최적화 하기 위해</em> 비트셋을 이용하는 방법으로 약간 특수화되서 제공된다. 따라서 <code>bool</code>값을 저장할 때 한 원소를 저장하는데 <code>sizeof(bool)</code> 을 쓰지 않고 대신에 <strong>단일 비트</strong>을 써서 저장한다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> _<span class="title">Ty</span>, <span class="title">class</span> _<span class="title">Alloc</span> = <span class="title">std</span>:</span>:allocator&lt;_Ty&gt;&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">vector</span>;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> pmr &#123; <span class="comment">// ++1z 부터</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> _<span class="title">Ty</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">using</span> <span class="title">vector</span> = <span class="title">std</span>:</span>:<span class="built_in">vector</span>&lt;_Ty, <span class="built_in">std</span>::pmr::polymorphic_allocator&lt;_Ty&gt;&gt;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Bool 특수화</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> _<span class="title">Alloc</span> = <span class="title">std</span>:</span>:allocator&lt;_Ty&gt;&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">vector</span>&lt;bool, _Alloc&gt; &#123;</span></span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>만약 저장할 boolean 배열의 길이를 컴파일 타임에 알 수 있다면, <code>std::bitset</code> 을 사용하는 것이 정신 건강에 좋다. </p>
+<hr>
+<h2 id="사용-시-주의점"><a href="#사용-시-주의점" class="headerlink" title="사용 시 주의점"></a>사용 시 주의점</h2><ol>
+<li><p>연속 배열와 같은 방법으로 값을 저장해서는 안된다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vector&lt;bool&gt; 컨테이너는 다음과 같은 코드가 일치한다.</span></span><br><span class="line">&amp;v[<span class="number">0</span>] + n != &amp;v[n];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>std::vector&lt;bool&gt;::reference</code> 을 vector<bool> 컨테이너의 접근자로 지정해줘야 한다. 대표적인 예시로 <code>operator[]</code> 연산자의 오버로딩에서 값 반환으로 <code>::reference</code> 을 반환한다.</bool></p>
+</li>
+<li><p>비트 값을 만들 때, <code>std::allocator_traits::construct</code>을 쓰지 말아야 한다.</p>
+</li>
+<li><p>멀티 스레드 환경에서, 각기 다른 스레드가 같은 컨테이너의 다른 원소를 변경하지 말도록 해야한다.</p>
+</li>
+<li><p>컨테이너 내부의 원소를 받을 때 <code>auto</code> 을 이용해서는 안된다. 명시적으로 <code>bool</code>을 표기해 줘야 한다.</p>
+</li>
+</ol>
+<hr>
+<h2 id="주의점-5번-심화-탐구"><a href="#주의점-5번-심화-탐구" class="headerlink" title="주의점 5번 심화 탐구"></a>주의점 5번 심화 탐구</h2><p>2번에서도 알 수 있듯이, <code>vector&lt;bool&gt;</code> 의 <code>operator[]</code> 은 <code>_Ty</code> 을 반환하는게 아니라 <code>std::vector&lt;bool&gt;::reference</code> 을 값으로 반환한다. 이 <code>reference</code> 객체는 접근을 용이하게 하기 위해 사용되는 nested class 이며 단일 비트의 행동을 따라하는 프록시다.</p>
+<p>std::vector<bool>::reference 의 인터페이스는 다음과 같다.</bool></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">vector</span>&lt;bool&gt;:</span>:reference &#123;</span><br><span class="line">    <span class="keyword">friend</span> <span class="class"><span class="keyword">class</span> <span class="title">vector</span>;</span></span><br><span class="line">    reference();                              <span class="comment">// ctor는 비공개</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ~reference();</span><br><span class="line">    <span class="function"><span class="keyword">operator</span> <span class="title">bool</span><span class="params">()</span> <span class="keyword">const</span> <span class="keyword">noexcept</span></span>;           <span class="comment">// bool로의 implicit 변환을 지원</span></span><br><span class="line">    reference&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> <span class="keyword">bool</span> x) <span class="keyword">noexcept</span>; <span class="comment">// 새로운 bool로 갱신 </span></span><br><span class="line">    reference&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> reference&amp; x) <span class="keyword">noexcept</span>; <span class="comment">// vector&lt;bool&gt;의 ref</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">flip</span><span class="params">()</span> <span class="keyword">noexcept</span></span>;                     <span class="comment">// 비트 반전</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>예시는 다음과 같다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">vector</span>&lt;<span class="keyword">bool</span>&gt; f(<span class="number">8</span>, <span class="literal">false</span>); <span class="comment">// 8개의 false을 가진 bool container 을 생성.</span></span><br><span class="line">    v[<span class="number">5</span>] = <span class="literal">true</span>;    <span class="comment">// 6번째 bit 값을 true 로 갱신한다.</span></span><br><span class="line">    v[<span class="number">7</span>].flip();    <span class="comment">// 8번째 bit 값을 flip 한다.</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// bool&amp; x = v[3]; 는 오류. v[3] 이 proxy l-value이므로 변환할 수 없다.</span></span><br><span class="line">    <span class="keyword">bool</span> x = v[<span class="number">3</span>];  <span class="comment">// 오류 없이 컴파일이 된다. implicit 하게 된다.</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"v[3] : "</span> &lt;&lt; x &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Iterator 조작이 가능하다. 하지만 구현이 약간 다르다.</span></span><br><span class="line">    for_each(v.begin(), v.end(), [](<span class="keyword">bool</span> x) &#123;</span><br><span class="line">        <span class="built_in">cout</span> &lt;&lt; x &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>출력은 다음과 같다.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ./executable_file</span><br><span class="line">v[3] : 0</span><br><span class="line">0</span><br><span class="line">0</span><br><span class="line">0</span><br><span class="line">0</span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line">0</span><br><span class="line">1</span><br><span class="line"><span class="meta">$</span></span><br></pre></td></tr></table></figure>
+<p>bool&amp; x = v[3]; 이 오류가 나는 까닭은, 프록시 오브젝트인 <code>reference</code> 가 반환되므로 <code>bool&amp;</code>으로 변경되지 않아 컴파일 에러가 일어나게 된다.<br>또한 <code>vector&lt;bool&gt;</code>은 기존 <a href="http://en.cppreference.com/w/cpp/concept/Container" target="_blank" rel="noopener">Container</a> 와 연속으로 원소를 저장하는 <a href="http://en.cppreference.com/w/cpp/concept/SequenceContainer" target="_blank" rel="noopener">SeqeunceContainer</a> 의 요구 조건을 만족하지 않으므로 <code>std::search</code> 와 같은 <a href="http://en.cppreference.com/w/cpp/concept/ForwardIterator" target="_blank" rel="noopener">ForwardIterator</a> 가 쓰이는 함수에서는 쓰일 수가 없다.</p>
+<hr>
+<h2 id="느낀-것"><a href="#느낀-것" class="headerlink" title="느낀 것."></a>느낀 것.</h2><ul>
+<li>std::bitset 에 대해서 한번 공부해보고 싶다.</li>
+<li>iterator 의 종류와 세부 사항 및 요구 조건에 대해서도 한버 알아보고 싶다.</li>
+<li>도중에 자료를 찾다가 느낀건데.. 연속 요소 저장 컨테이너인 <code>vector</code> 의 resizing 에 대해 재밌는 글이 눈에 띄어 한번 읽어보고 정리를 해보고 싶다.</li>
+</ul>
+<hr>
+<h2 id="출처"><a href="#출처" class="headerlink" title="출처"></a>출처</h2><ol>
+<li><a href="https://cpprefjp.github.io/reference/vector.html" target="_blank" rel="noopener">cpprefjp - C++日本語リファレンス</a></li>
+</ol>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#std-vector"><span class="toc-number">1.</span> <span class="toc-text">std::vector</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#사용-시-주의점"><span class="toc-number">1.1.</span> <span class="toc-text">사용 시 주의점</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#주의점-5번-심화-탐구"><span class="toc-number">1.2.</span> <span class="toc-text">주의점 5번 심화 탐구</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#느낀-것"><span class="toc-number">1.3.</span> <span class="toc-text">느낀 것.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#출처"><span class="toc-number">1.4.</span> <span class="toc-text">출처</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/11/10/201711/20171110-0/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/11/10/201711/20171110-0/&text=std::vector&lt;bool&gt;"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/11/10/201711/20171110-0/&title=std::vector&lt;bool&gt;"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/11/10/201711/20171110-0/&is_video=false&description=std::vector&lt;bool&gt;"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=std::vector&lt;bool&gt;&body=Check out this article: http://yoursite.com/2017/11/10/201711/20171110-0/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/11/10/201711/20171110-0/&title=std::vector&lt;bool&gt;"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-0/&title=std::vector&lt;bool&gt;"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-0/&title=std::vector&lt;bool&gt;"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-0/&title=std::vector&lt;bool&gt;"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/11/10/201711/20171110-0/&name=std::vector&lt;bool&gt;&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-109233350-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'liliillineu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

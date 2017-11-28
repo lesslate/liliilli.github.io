@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="type-traits컴파일 타임에 타입의 종류를 구분해줄 수 있다. 예를 들면, 특정 타입을 상속받고 있는 타입이거나 특정 타입으로 변환이 가능해야 하거나 하는 정적 분기를 이를 통해 구현할 수 있다.라이브러리에 포함된 클래스 템플릿은, 대개 메타 펑션 (Meta Function) 이라">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="type-traits">
+<meta property="og:url" content="http://yoursite.com/2017/11/04/201711/20171104-0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="type-traits컴파일 타임에 타입의 종류를 구분해줄 수 있다. 예를 들면, 특정 타입을 상속받고 있는 타입이거나 특정 타입으로 변환이 가능해야 하거나 하는 정적 분기를 이를 통해 구현할 수 있다.라이브러리에 포함된 클래스 템플릿은, 대개 메타 펑션 (Meta Function) 이라고도 불린다.    이름 설명     is_void 해당 형이 void">
+<meta property="og:updated_time" content="2017-11-05T01:16:07.544Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="type-traits">
+<meta name="twitter:description" content="type-traits컴파일 타임에 타입의 종류를 구분해줄 수 있다. 예를 들면, 특정 타입을 상속받고 있는 타입이거나 특정 타입으로 변환이 가능해야 하거나 하는 정적 분기를 이를 통해 구현할 수 있다.라이브러리에 포함된 클래스 템플릿은, 대개 메타 펑션 (Meta Function) 이라고도 불린다.    이름 설명     is_void 해당 형이 void">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>type-traits</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/11/05/201711/20171105-0/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/11/02/201711/20171102-1/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/11/04/201711/20171104-0/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/11/04/201711/20171104-0/&text=type-traits"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/11/04/201711/20171104-0/&title=type-traits"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/11/04/201711/20171104-0/&is_video=false&description=type-traits"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=type-traits&body=Check out this article: http://yoursite.com/2017/11/04/201711/20171104-0/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/11/04/201711/20171104-0/&title=type-traits"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/11/04/201711/20171104-0/&title=type-traits"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/11/04/201711/20171104-0/&title=type-traits"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/11/04/201711/20171104-0/&title=type-traits"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/11/04/201711/20171104-0/&name=type-traits&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#type-traits"><span class="toc-number">1.</span> <span class="toc-text">type-traits</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#is-integral-의-작동-원리"><span class="toc-number">1.1.</span> <span class="toc-text">is_integral 의 작동 원리</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#타입-관계의-이용"><span class="toc-number">1.2.</span> <span class="toc-text">타입 관계의 이용</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#종합-예시"><span class="toc-number">1.3.</span> <span class="toc-text">종합 예시</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        type-traits
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-11-04T02:34:21.000Z" itemprop="datePublished">2017-11-04</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/C/">C++</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="type-traits"><a href="#type-traits" class="headerlink" title="type-traits"></a>type-traits</h1><p>컴파일 타임에 타입의 종류를 구분해줄 수 있다. 예를 들면, 특정 타입을 상속받고 있는 타입이거나 특정 타입으로 변환이 가능해야 하거나 하는 정적 분기를 이를 통해 구현할 수 있다.<br>라이브러리에 포함된 클래스 템플릿은, 대개 <strong>메타 펑션 (Meta Function)</strong> 이라고도 불린다.</p>
+<table>
+<thead>
+<tr>
+<th>이름</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>is_void</td>
+<td>해당 형이 void 형인가</td>
+</tr>
+<tr>
+<td>is_null_pointer</td>
+<td>형이 nullptr_t 형인가</td>
+</tr>
+<tr>
+<td>is_integral</td>
+<td>해당 형이 정수형 (unsigned, int, char…) 인가</td>
+</tr>
+<tr>
+<td>is_same</td>
+<td>해당 형이 같은 타입인가</td>
+</tr>
+<tr>
+<td>is_base_of</td>
+<td>해당 형이 어느 타입의 자식 클래스인가</td>
+</tr>
+<tr>
+<td>is_convertible</td>
+<td>해당 형이 다른 타입으로 캐스팅 가능한가</td>
+</tr>
+<tr>
+<td>is_pointer</td>
+<td>해당 형이 포인터 타입인가</td>
+</tr>
+</tbody>
+</table>
+<p>이 외에도 많은 클래스 템플릿이 존재한다.</p>
+<p><br></p>
+<hr>
+<h2 id="is-integral-의-작동-원리"><a href="#is-integral-의-작동-원리" class="headerlink" title="is_integral 의 작동 원리"></a>is_integral 의 작동 원리</h2><p><strong><code>is_integral</code></strong> 클래스는 형 <code>_Ty</code> 가 <code>const-volatile</code> 을 무시할 때 정수형이면 <code>true-type</code> 을 반환하고, <code>false-type</code> 을 반환한다.</p>
+<p>쓰여진 코드는 다음과 같다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="built_in">std</span> &#123;</span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> _<span class="title">Ty</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">struct</span> _<span class="title">Is_integral</span> :</span> false_type &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span> &lt;&gt;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> _<span class="title">Is_integral</span>&lt;bool&gt; :</span> true_type &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> _<span class="title">Ty</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">struct</span> <span class="title">is_integral</span> :</span> _Is_integral&lt;<span class="keyword">remove_cv_t</span>&lt;_Ty&gt;&gt;::type &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> _<span class="title">Ty</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">constexpr</span> <span class="title">bool</span> <span class="title">is_integral_v</span> = <span class="title">is_integral</span>&lt;_Ty&gt;:</span>:value;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>그리고 이하의 타입이 정수형으로서 판정될 수 있다.</p>
+<ul>
+<li>bool</li>
+<li>char, char16_t, char32_t, wchar_t</li>
+<li>short, int, long, long long</li>
+</ul>
+<p>단 <code>enum</code> 은 정수형으로 판정되지 않는다.</p>
+<p>위의 코드에서 자세히 살펴보면, <code>false_type</code> 과 <code>true_type</code> 이 각 템플릿 클래스의 기본 클래스로서 정의되어 있는데, 이들은 다음과 같이 정의되고 있다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> _<span class="title">Ty</span>, _<span class="title">Ty</span> _<span class="title">Val</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">struct</span> <span class="title">integral_constant</span></span></span><br><span class="line"><span class="class">&#123;</span>	<span class="comment">// convenient template for integral constant types</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">constexpr</span> _Ty value = _Val;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> value_type = _Ty;</span><br><span class="line"><span class="keyword">using</span> type = integral_constant;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="keyword">operator</span> <span class="title">value_type</span><span class="params">()</span> <span class="keyword">const</span> _NOEXCEPT</span></span><br><span class="line"><span class="function">    </span>&#123;	<span class="comment">// return stored value</span></span><br><span class="line">    <span class="keyword">return</span> (value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> value_type <span class="title">operator</span><span class="params">()</span><span class="params">()</span> <span class="keyword">const</span> _NOEXCEPT</span></span><br><span class="line"><span class="function">    </span>&#123;	<span class="comment">// return stored value</span></span><br><span class="line">    <span class="keyword">return</span> (value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">bool</span> _Val&gt;</span><br><span class="line"><span class="keyword">using</span> bool_constant = integral_constant&lt;<span class="keyword">bool</span>, _Val&gt;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> true_type = bool_constant&lt;<span class="literal">true</span>&gt;;</span><br><span class="line"><span class="keyword">using</span> false_type = bool_constant&lt;<span class="literal">false</span>&gt;;</span><br></pre></td></tr></table></figure>
+<p><code>true_type</code> 과 <code>false_type</code> 은 실질적으로 <code>integral_constant&lt;bool, _Ty&gt;</code> 의 별칭(alise) 이며 거슬러 올라가면 컴파일 타임 시점에서 value 로서 _Val (true 또는 false) 을 가짐을 알 수 있다. <code>true_type::value</code> 을 호출하면 <em>true</em> 을 얻고, <code>false_type::value</code> 을 호출하면 <em>false</em> 을 얻게 되는 것이다. 이것을 통해 위의 코드에서 템플릿 특수화를 이용해 true 인가 false 인가를 컴파일 타임 시점에서 반환하게 할 수 있다.</p>
+<p>또한 <code>integral_constant&lt;class _Ty, _Ty val&gt;</code>은 <type_traits> 내부의 클래스와 그 클래스로부터의 기본 클래스로써 많이 쓰여진다. </type_traits></p>
+<p>다음은 이를 활용한 코드다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 두번째 인자는 오버로딩 체킹용으로만 쓰인다.</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _Ty&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process_helper</span><span class="params">(<span class="keyword">const</span> _Ty&amp; t, true_type)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; t &lt;&lt; <span class="string">" is an integral type."</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _Ty&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process_helper</span><span class="params">(<span class="keyword">const</span> _Ty&amp; t, false_type)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; t &lt;&lt; <span class="string">" is an integral type."</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _Ty&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">const</span> _Ty&amp; t)</span> </span>&#123;</span><br><span class="line">    process_helper(t, is_integral&lt;_Ty&gt;::type());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    process(<span class="number">123</span>);</span><br><span class="line">    process(<span class="number">2.2</span>);</span><br><span class="line">    process(<span class="built_in">string</span>(<span class="string">"Test"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>위 코드에서 <code>is_integral&lt;_Ty&gt;::type()</code> 은, is_integral 을 이용해서 _Ty 가 정수 타입인지를 컴파일 타임에 검사하도록 하여 <code>::type</code> 을 호출하도록 한다. 그 결과 도출된 <code>true_type</code> 혹은 <code>false_type</code> 의 <em>인스턴스</em>를 토대로 위의 두 오버로딩된 함수에서 알맞은 함수를 골라 진입하도록 한다.</p>
+<p>위 코드의 실행 결과는 다음과 같다.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ./executable_file</span><br><span class="line">123 is an integral type.</span><br><span class="line">2.2 is a non-integral type.</span><br><span class="line">Test is a non-integral type.</span><br><span class="line"><span class="meta">$</span></span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<h2 id="타입-관계의-이용"><a href="#타입-관계의-이용" class="headerlink" title="타입 관계의 이용"></a>타입 관계의 이용</h2><p>타입 관계는 <code>is_same</code> , <code>is_base_of</code> , <code>is_convertible</code> 세 가지가 사용된다.<br>다음 코드는 <code>is_same</code> 의 예제 코드이다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _Ty, <span class="keyword">typename</span> _Fy&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">same</span><span class="params">(<span class="keyword">const</span> _Ty&amp; t, <span class="keyword">const</span> _Fy&amp; f)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">bool</span> areTypesTheSame = is_same&lt;_Ty, _Fy&gt;::value; <span class="comment">// true_type, false_type;</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"'"</span> &lt;&lt; _Ty &lt;&lt; <span class="string">"' and '"</span> &lt;&lt; _Fy &lt;&lt; <span class="string">"' are "</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; (areTypesTheSame ? <span class="string">"the same types."</span> : <span class="string">"different types."</span>) &lt;&lt; <span class="built_in">endl</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    same(<span class="number">1</span>, <span class="number">32</span>);</span><br><span class="line">    same(<span class="number">1</span>, <span class="number">3.01</span>);</span><br><span class="line">    same(<span class="number">3.01</span>, <span class="built_in">string</span>(<span class="string">"Test"</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>is_same</code> 은 _Fy 가 _Ty 와 같은 타입인가를 컴파일 타임에 검사해서 <code>true_type</code> 혹은 <code>false_type</code> 을 반환한다. 이런 방식은 나중에 컴파일 타임에 정적 분기를 이용한 템플릿 오버로딩 함수를 만들어 내는데 중요한 역할을 하게 된다.</p>
+<p>위 코드는 다음과 같은 실행 결과를 출력한다.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ./executable_file</span><br><span class="line">'1' and '32' are the same types.</span><br><span class="line">'1' and '3.01' are different types.</span><br><span class="line">'3.01' and 'Test' are different types.</span><br><span class="line"><span class="meta">$</span></span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<h2 id="종합-예시"><a href="#종합-예시" class="headerlink" title="종합 예시"></a>종합 예시</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;type_traits&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _Ty&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process_helper</span><span class="params">(<span class="keyword">const</span> _Ty&amp; t, true_type f)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; t &lt;&lt; <span class="string">" is an integral type."</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _Ty&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process_helper</span><span class="params">(<span class="keyword">const</span> _Ty&amp; t, false_type f)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; t &lt;&lt; <span class="string">" is not an integral type."</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> _Ty&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">const</span> _Ty&amp; t)</span> </span>&#123;</span><br><span class="line">    process_helper(t, <span class="keyword">typename</span> is_integral&lt;_Ty&gt;::type());</span><br><span class="line">    <span class="comment">// is same process_helper(t, is_integral&lt;_Ty&gt;::type());</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"value : "</span> &lt;&lt; is_integral&lt;_Ty&gt;::value &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"value type : "</span> &lt;&lt; <span class="keyword">typeid</span>(is_integral&lt;_Ty&gt;::value).name() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"type() : "</span> &lt;&lt; is_integral&lt;_Ty&gt;::type() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"typename : "</span> &lt;&lt; <span class="keyword">typeid</span>(<span class="keyword">typename</span> is_integral&lt;_Ty&gt;::type()).name() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="string">"call : "</span> &lt;&lt; <span class="keyword">typeid</span>(is_integral&lt;_Ty&gt;::type).name() &lt;&lt; <span class="string">'\n'</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; true_type() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; false_type() &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; <span class="built_in">endl</span>;</span><br><span class="line">    process(<span class="number">123</span>);</span><br><span class="line">    process(<span class="number">2.2</span>);</span><br><span class="line">    process(<span class="built_in">string</span>(<span class="string">"Test"</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>결과는 다음과 같았다.</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> ./exeuctable_file</span><br><span class="line">1</span><br><span class="line">0</span><br><span class="line"></span><br><span class="line">123 is an integral type.</span><br><span class="line">value : 1</span><br><span class="line">value type : bool</span><br><span class="line">type() : 1</span><br><span class="line">typename : struct std::integral_constant&lt;bool,1&gt; __cdecl(void)</span><br><span class="line">call : struct std::integral_constant&lt;bool,1&gt;</span><br><span class="line"></span><br><span class="line">2.2 is not an integral type.</span><br><span class="line">value : 0</span><br><span class="line">value type : bool</span><br><span class="line">type() : 0</span><br><span class="line">typename : struct std::integral_constant&lt;bool,0&gt; __cdecl(void)</span><br><span class="line">call : struct std::integral_constant&lt;bool,0&gt;</span><br><span class="line"></span><br><span class="line">Test is not an integral type.</span><br><span class="line">value : 0</span><br><span class="line">value type : bool</span><br><span class="line">type() : 0</span><br><span class="line">typename : struct std::integral_constant&lt;bool,0&gt; __cdecl(void)</span><br><span class="line">call : struct std::integral_constant&lt;bool,0&gt;</span><br><span class="line"><span class="meta">$</span></span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#type-traits"><span class="toc-number">1.</span> <span class="toc-text">type-traits</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#is-integral-의-작동-원리"><span class="toc-number">1.1.</span> <span class="toc-text">is_integral 의 작동 원리</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#타입-관계의-이용"><span class="toc-number">1.2.</span> <span class="toc-text">타입 관계의 이용</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#종합-예시"><span class="toc-number">1.3.</span> <span class="toc-text">종합 예시</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/11/04/201711/20171104-0/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/11/04/201711/20171104-0/&text=type-traits"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/11/04/201711/20171104-0/&title=type-traits"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/11/04/201711/20171104-0/&is_video=false&description=type-traits"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=type-traits&body=Check out this article: http://yoursite.com/2017/11/04/201711/20171104-0/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/11/04/201711/20171104-0/&title=type-traits"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/11/04/201711/20171104-0/&title=type-traits"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/11/04/201711/20171104-0/&title=type-traits"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/11/04/201711/20171104-0/&title=type-traits"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/11/04/201711/20171104-0/&name=type-traits&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-109233350-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'liliillineu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

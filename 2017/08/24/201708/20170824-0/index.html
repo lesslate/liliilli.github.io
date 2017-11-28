@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="하계인턴을 가기 전까지는, 어플리케이션 자체에서 푸시 알람을 보내줄 때 어플리케이션 자체에서 푸시 알람 자체의 설정을 On/Off 해주기만 하면 푸시 알람을 받을 수 있고 블락할 수 있다고 생각했었다. 하지만 지금은 어플리케이션 내부에서 푸시 알람을 설정해주는 것은 어디까지나 Share">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="어플리케이션 알림 설정확인 방법을 통해 알게된 것들">
+<meta property="og:url" content="http://yoursite.com/2017/08/24/201708/20170824-0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="하계인턴을 가기 전까지는, 어플리케이션 자체에서 푸시 알람을 보내줄 때 어플리케이션 자체에서 푸시 알람 자체의 설정을 On/Off 해주기만 하면 푸시 알람을 받을 수 있고 블락할 수 있다고 생각했었다. 하지만 지금은 어플리케이션 내부에서 푸시 알람을 설정해주는 것은 어디까지나 SharedPreference와 같은 어플리케이션 내부 저장소에 설정을 저장하게">
+<meta property="og:updated_time" content="2017-11-24T01:53:15.579Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="어플리케이션 알림 설정확인 방법을 통해 알게된 것들">
+<meta name="twitter:description" content="하계인턴을 가기 전까지는, 어플리케이션 자체에서 푸시 알람을 보내줄 때 어플리케이션 자체에서 푸시 알람 자체의 설정을 On/Off 해주기만 하면 푸시 알람을 받을 수 있고 블락할 수 있다고 생각했었다. 하지만 지금은 어플리케이션 내부에서 푸시 알람을 설정해주는 것은 어디까지나 SharedPreference와 같은 어플리케이션 내부 저장소에 설정을 저장하게">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>어플리케이션 알림 설정확인 방법을 통해 알게된 것들</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/10/30/201710/20171030/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/08/22/201708/20170822-0/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/08/24/201708/20170824-0/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/08/24/201708/20170824-0/&text=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/08/24/201708/20170824-0/&title=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/08/24/201708/20170824-0/&is_video=false&description=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=어플리케이션 알림 설정확인 방법을 통해 알게된 것들&body=Check out this article: http://yoursite.com/2017/08/24/201708/20170824-0/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/08/24/201708/20170824-0/&title=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/08/24/201708/20170824-0/&title=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/08/24/201708/20170824-0/&title=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/08/24/201708/20170824-0/&title=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/08/24/201708/20170824-0/&name=어플리케이션 알림 설정확인 방법을 통해 알게된 것들&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#일단-해보기"><span class="toc-number">1.</span> <span class="toc-text">일단 해보기</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NotificationManager"><span class="toc-number">1.1.</span> <span class="toc-text">NotificationManager</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NotificationManagerCompat"><span class="toc-number">1.2.</span> <span class="toc-text">NotificationManagerCompat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Notification"><span class="toc-number">1.3.</span> <span class="toc-text">Notification</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        어플리케이션 알림 설정확인 방법을 통해 알게된 것들
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-08-23T15:45:55.000Z" itemprop="datePublished">2017-08-24</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Android/">Android</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>하계인턴을 가기 전까지는, 어플리케이션 자체에서 푸시 알람을 보내줄 때 어플리케이션 자체에서 푸시 알람 자체의 설정을 On/Off 해주기만 하면 푸시 알람을 받을 수 있고 블락할 수 있다고 생각했었다. 하지만 지금은 어플리케이션 내부에서 푸시 알람을 설정해주는 것은 어디까지나 <a href="https://developer.android.com/reference/android/content/SharedPreferences.html" target="_blank" rel="noopener">SharedPreference</a>와 같은 어플리케이션 내부 저장소에 설정을 저장하게 하는 인터페이스를 이용하는 것에 지나지 않는다는 것을 알게 되었다. 어플리케이션에 대한 푸시 알람의 근본적인 설정은 다른 데 있다는 것? 아무튼…</p>
+<h2 id="일단-해보기"><a href="#일단-해보기" class="headerlink" title="일단 해보기"></a>일단 해보기</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NotificationManagerCompat notificationManagerCompat =</span><br><span class="line">    NotificationManagerCompat.from(context.getApplicationContext());</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!notificationManagerCompat.areNotificationsEnabled()) &#123;</span><br><span class="line">    NotificationBlockDialog dialog = NotificationBlockDialog.newInstance();</span><br><span class="line">    dialog.setPositiveButtonListener(<span class="keyword">new</span> DialogInterface.OnClickListener() &#123;</span><br><span class="line">        <span class="meta">@SuppressLint</span>(<span class="string">"InlinedApi"</span>) <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(DialogInterface dialogInterface, <span class="keyword">int</span> i)</span> </span>&#123;</span><br><span class="line">            <span class="comment">// Do something...</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>NotificationManager (NotificationManagerCompat)</code> 을 써서, 현재 어플리케이션의 알람 설정의 상태를 가져올 수 있다. 잘됬네 잘됬어.</p>
+<h3 id="NotificationManager"><a href="#NotificationManager" class="headerlink" title="NotificationManager"></a><a href="https://developer.android.com/reference/android/app/NotificationManager.html?is-external=true" target="_blank" rel="noopener">NotificationManager</a></h3><p>백그라운드에서 어떤 이벤트가 일어날 때, 그 이벤트를 담당하는 유저가 무엇인지 알려주는 클래스. 즉, 어플리케이션을 사용하는 유저에게 백그라운드에서 어플리케이션에 관련된 무언가를 알려주고자 할 때 사용된다.</p>
+<p>Notification 은 다음과 같은 형태를 지닐 수 있다고 한다.</p>
+<ol>
+<li>일반적인 형태의 알람</li>
+<li>하드웨어 디바이스의 특징을 이용한 것 (LED 깜빡임 또는 화면 켜짐)</li>
+<li>진동, 사운드 등으로 알려주는 형태</li>
+</ol>
+<p>그리고 이 클래스에 대한 인스턴스를 얻기 위해서는 반드시 다음과 같이 해야한다고 한다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NotificationManager manager = </span><br><span class="line">    (NotificationManager) Context.getSystemService(NotificationManager.class);</span><br><span class="line"><span class="comment">// 또는...</span></span><br><span class="line">NotificationManager manager =</span><br><span class="line">    (NotificationManager) Context.getSystemService(Context.NOTIFICATION_SERVICE);</span><br></pre></td></tr></table></figure>
+<p>근데 문제점은 위의 코드에서는 <code>NotificaitonManager</code> 을 쓰지 않고, <code>NotificationManagerCompat</code> 을 쓴 것이 함정. 따라서…</p>
+<h3 id="NotificationManagerCompat"><a href="#NotificationManagerCompat" class="headerlink" title="NotificationManagerCompat"></a><a href="https://developer.android.com/reference/android/support/v4/app/NotificationManagerCompat.html" target="_blank" rel="noopener">NotificationManagerCompat</a></h3><p>옛날 버전의 안드로이드 플랫폼 단말에서도 잘 동작할 수 있도록 지원해주는 호환 라이브러리이다. 방법이 특이한데, 이렇게 써서 인스턴스를 얻도록 해야한다…</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NotificationManagerCompat notificationManagerCompat =</span><br><span class="line">    NotificationManagerCompat.from(context.getApplicationContext());</span><br></pre></td></tr></table></figure>
+<p><code>from(Context)</code> 메소드는 정적으로 상위 타입이 Context 인 모든 것을 다 받지만, 개인적으로는 앱 자체에 관한 알람 설정을 건드려야 하기 때문에 <code>Activity</code> 가 아닌, <code>Application</code> 혹은 <code>Context</code> 자체를 인자로 넣어주는게 타당하지 않나 싶다.</p>
+<p>그리고 나서 다음과 같은 메소드를 통해 현재 Context 에서 Notification 의 설정 여부를 알 수 있다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">boolean</span> ok = otificationManagerCompat.areNotificationsEnabled();</span><br></pre></td></tr></table></figure>
+<h3 id="Notification"><a href="#Notification" class="headerlink" title="Notification"></a><a href="https://developer.android.com/reference/android/app/Notification.html" target="_blank" rel="noopener">Notification</a></h3><p>위의 NotificationManager 등을 통해서 유저에게 전송할 수 있는 notification 이벤트라고 한다. 이 때 Notification 을 간편하게 만들기 위한 <code>Notification.Builder(Context context)</code> 가 정의되어 있으니 나중에 필요하면 이걸 쓸 것. 또는 <code>NotificationCompat.Builder(Context context)</code>을 써서 하위 호환성을 맞출 수도 있다.</p>
+<p>이 때, Notification 객체는 다음을 반드시 포함해야 한다고 한다.</p>
+<ol>
+<li><strong>setSmallIcon(int icon)</strong> :: 알람 시 보여지는 작은 아이콘. 인자로는 drawable resource의 id가 와야한다. </li>
+<li><strong>setContentTitle(String)</strong> :: 설정한 제목</li>
+<li><strong>setContentText(String)</strong>  :: 설정한 세부 텍스트</li>
+</ol>
+<p>레퍼런스 사이트에 따르면 다음과 같이 간단한 알람을 생성할 수 있다.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">NotificationCompat.Builder builder =</span><br><span class="line">    <span class="keyword">new</span> NotificationCompat.Builder(<span class="keyword">this</span>)</span><br><span class="line">    .setSmallIcon(R.drawable.notification.icon)</span><br><span class="line">    .setContentTitle(<span class="string">"My Notification"</span>)</span><br><span class="line">    .setContentText(<span class="string">"Hello world!"</span>)</span><br><span class="line">Intent resultIntent = <span class="keyword">new</span> Intent(<span class="keyword">this</span>, ResultActivity.class);</span><br><span class="line"></span><br><span class="line">TaskStackBuilder stackBuilder = TaskStackBuilder.create(<span class="keyword">this</span>);</span><br><span class="line">stackBuilder.addParentStack(ResultActivity.class);</span><br><span class="line">stackBuilder.addNextIntent(resultIntent);</span><br><span class="line"></span><br><span class="line">PendingIntent resultPendingIntent =</span><br><span class="line">        stackBuilder.getPendingIntent(</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                PendingIntent.FLAG_UPDATE_CURRENT</span><br><span class="line">        );</span><br><span class="line">builder.setContentIntent(resultPendingIntent);</span><br><span class="line"></span><br><span class="line">NotificationManager notificationManager =</span><br><span class="line">        (NotificationManager) getSystemService(Content.NOTIFICATION_SERVICE);</span><br><span class="line">notificationManager.notify(<span class="number">0</span>, builder.build());</span><br></pre></td></tr></table></figure>
+<p>이 때, 하나의 알림은 여러 개의 작업을 트리거할 수 있으며 일반적으로는 어플리케이션의 Acitivity을 여는 작업이 보통이라고 한다. <code>알림 버튼</code>의 경우에는 Android 4.1 부터 기능을 지원한다고 하니 SDK가 이보다 낮으면 SDK_INT 의 compatibility 확인을 따로 해줘야 할 듯.</p>
+<p>나중에 알람쪽에 대해서 한번 자세하게 더 보아야 할 것 같다…</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#일단-해보기"><span class="toc-number">1.</span> <span class="toc-text">일단 해보기</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#NotificationManager"><span class="toc-number">1.1.</span> <span class="toc-text">NotificationManager</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NotificationManagerCompat"><span class="toc-number">1.2.</span> <span class="toc-text">NotificationManagerCompat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Notification"><span class="toc-number">1.3.</span> <span class="toc-text">Notification</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/08/24/201708/20170824-0/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/08/24/201708/20170824-0/&text=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/08/24/201708/20170824-0/&title=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/08/24/201708/20170824-0/&is_video=false&description=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=어플리케이션 알림 설정확인 방법을 통해 알게된 것들&body=Check out this article: http://yoursite.com/2017/08/24/201708/20170824-0/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/08/24/201708/20170824-0/&title=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/08/24/201708/20170824-0/&title=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/08/24/201708/20170824-0/&title=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/08/24/201708/20170824-0/&title=어플리케이션 알림 설정확인 방법을 통해 알게된 것들"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/08/24/201708/20170824-0/&name=어플리케이션 알림 설정확인 방법을 통해 알게된 것들&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-109233350-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'liliillineu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

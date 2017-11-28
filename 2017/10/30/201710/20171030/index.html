@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="std::nothrow_t 1234namespace std &amp;#123;    struct nothrow_t &amp;#123;&amp;#125;;    extern const nothrow_t nothrow;&amp;#125;   개요 operator new 또는 operator">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="std::nothrow">
+<meta property="og:url" content="http://yoursite.com/2017/10/30/201710/20171030/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="std::nothrow_t 1234namespace std &amp;#123;    struct nothrow_t &amp;#123;&amp;#125;;    extern const nothrow_t nothrow;&amp;#125;   개요 operator new 또는 operator new[] 에 쓰이는 인자로, 동적 할당이 오류가 일어나도 예외를 던지지 않고 대신 null poi">
+<meta property="og:updated_time" content="2017-10-30T08:45:42.049Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="std::nothrow">
+<meta name="twitter:description" content="std::nothrow_t 1234namespace std &amp;#123;    struct nothrow_t &amp;#123;&amp;#125;;    extern const nothrow_t nothrow;&amp;#125;   개요 operator new 또는 operator new[] 에 쓰이는 인자로, 동적 할당이 오류가 일어나도 예외를 던지지 않고 대신 null poi">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>std::nothrow</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/10/30/201710/20171030-2/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/08/24/201708/20170824-0/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/10/30/201710/20171030/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/10/30/201710/20171030/&text=std::nothrow"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/10/30/201710/20171030/&title=std::nothrow"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/10/30/201710/20171030/&is_video=false&description=std::nothrow"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=std::nothrow&body=Check out this article: http://yoursite.com/2017/10/30/201710/20171030/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/10/30/201710/20171030/&title=std::nothrow"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/10/30/201710/20171030/&title=std::nothrow"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/10/30/201710/20171030/&title=std::nothrow"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/10/30/201710/20171030/&title=std::nothrow"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/10/30/201710/20171030/&name=std::nothrow&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#std-nothrow-t"><span class="toc-number">1.</span> <span class="toc-text">std::nothrow_t</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#개요"><span class="toc-number">1.1.</span> <span class="toc-text">개요</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#덤-왜-std-nothrow-가-잘-안-쓰이나요"><span class="toc-number">1.2.</span> <span class="toc-text">덤, 왜 std::nothrow 가 잘 안 쓰이나요?</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        std::nothrow
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-10-30T07:55:30.000Z" itemprop="datePublished">2017-10-30</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/C/">C++</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="std-nothrow-t"><a href="#std-nothrow-t" class="headerlink" title="std::nothrow_t"></a>std::nothrow_t</h1><hr>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">namespace</span> <span class="built_in">std</span> &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">nothrow_t</span> &#123;</span>&#125;;</span><br><span class="line">    <span class="keyword">extern</span> <span class="keyword">const</span> <span class="keyword">nothrow_t</span> nothrow;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+
+<h2 id="개요"><a href="#개요" class="headerlink" title="개요"></a>개요</h2><hr>
+<p><code>operator new</code> 또는 <code>operator new[]</code> 에 쓰이는 인자로, 동적 할당이 오류가 일어나도 예외를 던지지 않고 대신 <strong><em>null pointer</em></strong> 을 던지도록 한다. 기본적으로는 <code>new</code> 연산자가 동적 할당에서 메모리 확보에 실패하였을 때, <em>bad_alloc</em> 예외를 던지게 한다. 하지만 std::nothrow 가 인자로 주어지면 대신에 <strong>nullptr</strong> 을 반환하게 한다. </p>
+<p>std::nothrow 이 자체는 구조체 타입 std::nothrow_t 의 객체 값에 불과하다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;new&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Attempting to allocate 1 MiB..."</span>;</span><br><span class="line">    <span class="keyword">char</span>* p = <span class="keyword">new</span> (<span class="built_in">std</span>::nothrow) <span class="keyword">char</span>[<span class="number">1048576</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!p) &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Failed\n"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Succeeded\n"</span>;</span><br><span class="line">        <span class="keyword">delete</span>[] p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> Attempting to allocate 1 MiB... Succeeded!</span><br></pre></td></tr></table></figure>
+<p>또 다른 예시</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;new&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123; <span class="comment">// std::nothrow 을 인자로 받지 않는 버전의 new() 을 불러온다.</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">100</span>_000_000ul]; <span class="comment">// Throwing overload</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (<span class="keyword">const</span> <span class="built_in">std</span>::bad_alloc&amp; e) &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; e.what() &lt;&lt; <span class="string">'\n'</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">int</span>* p = <span class="keyword">new</span>(<span class="built_in">std</span>::nothrow) <span class="keyword">int</span>[<span class="number">100</span>_000_000ul];</span><br><span class="line">        <span class="keyword">if</span> (p == <span class="literal">nullptr</span>) &#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">"Allocation returned nullptr\n"</span>;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> std::bad_alloc</span><br><span class="line">Allocation returned nullptr</span><br></pre></td></tr></table></figure>
+<p><br></p>
+
+<h2 id="덤-왜-std-nothrow-가-잘-안-쓰이나요"><a href="#덤-왜-std-nothrow-가-잘-안-쓰이나요" class="headerlink" title="덤, 왜 std::nothrow 가 잘 안 쓰이나요?"></a>덤, 왜 std::nothrow 가 잘 안 쓰이나요?</h2><hr>
+<p>원본 출처 <a href="https://stackoverflow.com/questions/18061781/why-new-stdnothrow-version-is-not-widely-used" target="_blank" rel="noopener">https://stackoverflow.com/questions/18061781/why-new-stdnothrow-version-is-not-widely-used</a></p>
+<ul>
+<li>nothrow 대신에 기본 bad_alloc 을 던지는 new() 을 더 선호하는 이유가 있나요?</li>
+</ul>
+<p>예외의 기본 법칙인, <em>예외를 내부적으로 처리할 수 없다면, 그 예외에 대해 내부에서 확인하지 않도록 하라</em> 를 따르는 것. 일반적인 리턴 값과는 달리 예외는 무시할 수 없기 때문에 만약 nullptr 을 쓴다고 하더라도 이에 대한 예외를 처리할 수 없음.</p>
+<ul>
+<li>bad_alloc 과 같은 예외를 체크하지 않는 이유?</li>
+</ul>
+<p>보통 메모리 할당 에러와 같은 경우에는 내부에서 컨트롤이 불가능하다. 이 경우에는 프로그램을 종료시키는 것이 가장 좋은 방법이며 처리되지 않은 예외에 대해서도 기본적으로 이 방법을 택한다. 따라서 new(std::nothrow) 가 아닌, new() 을 쓰는 것임.</p>
+<ul>
+<li>malloc() 과 new 의 차이?</li>
+</ul>
+<p>malloc() 은 메모리가 할당되었는가를 체크하기 위해서 부수적으로 <code>NULL</code> 을 체크해야 함. 하지만 new 는 에러 처리 면에서는 보다 추상화되어 따로 에러 체크를 하지 않아도 됨.</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#std-nothrow-t"><span class="toc-number">1.</span> <span class="toc-text">std::nothrow_t</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#개요"><span class="toc-number">1.1.</span> <span class="toc-text">개요</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#덤-왜-std-nothrow-가-잘-안-쓰이나요"><span class="toc-number">1.2.</span> <span class="toc-text">덤, 왜 std::nothrow 가 잘 안 쓰이나요?</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/10/30/201710/20171030/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/10/30/201710/20171030/&text=std::nothrow"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/10/30/201710/20171030/&title=std::nothrow"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/10/30/201710/20171030/&is_video=false&description=std::nothrow"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=std::nothrow&body=Check out this article: http://yoursite.com/2017/10/30/201710/20171030/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/10/30/201710/20171030/&title=std::nothrow"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/10/30/201710/20171030/&title=std::nothrow"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/10/30/201710/20171030/&title=std::nothrow"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/10/30/201710/20171030/&title=std::nothrow"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/10/30/201710/20171030/&name=std::nothrow&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-109233350-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'liliillineu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Const123456789101112char greeting[] = &quot;Hello&quot;;      // 비상수 문자 배열 설정char *p = greeting;             // 가변 포인터                                // 가변 문자 배">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="const 의 사용법 (Effective C++ no.3)">
+<meta property="og:url" content="http://yoursite.com/2017/10/31/201710/20171031-1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Const123456789101112char greeting[] = &quot;Hello&quot;;      // 비상수 문자 배열 설정char *p = greeting;             // 가변 포인터                                // 가변 문자 배열const char* p = greeting;       // 가변 포인터">
+<meta property="og:updated_time" content="2017-11-01T11:43:15.075Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="const 의 사용법 (Effective C++ no.3)">
+<meta name="twitter:description" content="Const123456789101112char greeting[] = &quot;Hello&quot;;      // 비상수 문자 배열 설정char *p = greeting;             // 가변 포인터                                // 가변 문자 배열const char* p = greeting;       // 가변 포인터">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>const 의 사용법 (Effective C++ no.3)</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/11/02/201711/20171102-0/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/10/31/201710/20171031-0/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/10/31/201710/20171031-1/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/10/31/201710/20171031-1/&text=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/10/31/201710/20171031-1/&title=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/10/31/201710/20171031-1/&is_video=false&description=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=const 의 사용법 (Effective C++ no.3)&body=Check out this article: http://yoursite.com/2017/10/31/201710/20171031-1/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/10/31/201710/20171031-1/&title=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/10/31/201710/20171031-1/&title=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/10/31/201710/20171031-1/&title=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/10/31/201710/20171031-1/&title=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/10/31/201710/20171031-1/&name=const 의 사용법 (Effective C++ no.3)&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Const"><span class="toc-number">1.</span> <span class="toc-text">Const</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#반복자"><span class="toc-number">1.1.</span> <span class="toc-text">반복자</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#상수-멤버-함수-Constant-Member-Function"><span class="toc-number">1.2.</span> <span class="toc-text">상수 멤버 함수 (Constant Member Function)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#멤버-함수가-const-라는-것의-의미"><span class="toc-number">1.3.</span> <span class="toc-text">멤버 함수가 const 라는 것의 의미</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bitwise-constness"><span class="toc-number">1.3.1.</span> <span class="toc-text">bitwise constness</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logical-constness"><span class="toc-number">1.3.2.</span> <span class="toc-text">logical constness</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#상수-멤버-및-비상수-멤버가-오버로딩-시-코드-중복-현상을-피하는-법"><span class="toc-number">1.4.</span> <span class="toc-text">상수 멤버 및 비상수 멤버가 오버로딩 시, 코드 중복 현상을 피하는 법</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        const 의 사용법 (Effective C++ no.3)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-10-31T05:37:46.000Z" itemprop="datePublished">2017-10-31</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/C/">C++</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="Const"><a href="#Const" class="headerlink" title="Const"></a>Const</h1><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> greeting[] = <span class="string">"Hello"</span>;      <span class="comment">// 비상수 문자 배열 설정</span></span><br><span class="line"><span class="keyword">char</span> *p = greeting;             <span class="comment">// 가변 포인터</span></span><br><span class="line">                                <span class="comment">// 가변 문자 배열</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* p = greeting;       <span class="comment">// 가변 포인터</span></span><br><span class="line">                                <span class="comment">// 불변 문자 배열</span></span><br><span class="line"><span class="keyword">char</span> <span class="keyword">const</span>* p = greeting;       <span class="comment">// const char* p = greeting 과 동일 의미</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span>* <span class="keyword">const</span> p = greeting;       <span class="comment">// 불변 포인터</span></span><br><span class="line">                                <span class="comment">// 가변 문자 배열</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span>* <span class="keyword">const</span> p = greeting; <span class="comment">// 불변 포인터</span></span><br><span class="line">                                <span class="comment">// 불변 문자 배열</span></span><br></pre></td></tr></table></figure>
+<p><code>const 키워드</code>가 <em> 표의 왼쪽에 있으면 포인터가 가리키는 데이터가 불변이 되며, </em> 표의 오른쪽에 있으면 포인터 자체가 상수이며 데이터의 가변은 가능하나 포인터 자체가 재할당 될 수 없다. 만약 양방향에 const가 존재하면, 포인터 그 자체 뿐만이 아니라 포인터가 가리키는 데이터 또한 불변성을 가진다.</p>
+<p>또한, 타입 앞에 const 가 오든 뒤에 const 가 오든 그 의미는 같다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">const</span> Widget* pw)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f2</span><span class="params">(Widget <span class="keyword">const</span>* pw)</span></span>;      <span class="comment">// 둘 다 동일한 의미를 가진다.</span></span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<h2 id="반복자"><a href="#반복자" class="headerlink" title="반복자"></a>반복자</h2><p>STL 반복자는 포인터를 본 뜬 것이며 기본적인 동작 원리가 <code>T*</code> 와 비슷하다. 따라서 어떤 반복자 (iterator) 가 다음과 같다고 할 때,</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">using</span> ::iterator = T*;</span><br></pre></td></tr></table></figure>
+<p>이 반복자를 무턱대고 const 로 선언해서 써버리게 되면 반복자가 내부에서 가리키고 있는 어떤 배열의 포인터 위치가 불변이 되버려 의도한 동작을 할 수 없게 된다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> v_array = <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;;</span><br><span class="line">v_array vec;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> v_array::iterator iter = vec.begin(); </span><br><span class="line"><span class="comment">// const ::iterator 는 T* const 처럼 동작한다.</span></span><br><span class="line">*iter = <span class="number">10</span>; </span><br><span class="line"><span class="comment">// iter 의 실 포인터 타입은 int* 로, 따라서 int* const 이며</span></span><br><span class="line"><span class="comment">// 따라서 반복자 위치 자체는 변경 불가능하나 내부의 데이터는 변경 가능하다.</span></span><br><span class="line">++iter;</span><br><span class="line"><span class="comment">// 에러. 반보가 위치 자체는 int* const 로 변경이 불가능하다.</span></span><br></pre></td></tr></table></figure>
+<p>따라서 위와 같이 const T 를 받는 반복자를 받고 싶으면 const 을 앞에 붙이는 대신, <code>const_iterator</code> 을 쓰면 된다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">using</span> const_iterator = <span class="keyword">const</span> T*;</span><br></pre></td></tr></table></figure>
+<p>함수 반환 값을 상수로 정해주면, 안정성 및 효율을 유지하면서 터무니 없는 연산을 컴파일 타임에서 막을 수 있다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rational</span> &#123;</span> ... &#125;;</span><br><span class="line"><span class="keyword">const</span> Rational <span class="keyword">operator</span>=(<span class="keyword">const</span> Rational&amp; lhs, <span class="keyword">const</span> Rational&amp; rhs);</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">Rational a, b, c;</span><br><span class="line">(a * b) = c;            <span class="comment">// 에러! a * b 의 반환값은 const 이다. </span></span><br><span class="line">                        <span class="comment">// (rvalue 인가에 대해서는 관게없다)</span></span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<h2 id="상수-멤버-함수-Constant-Member-Function"><a href="#상수-멤버-함수-Constant-Member-Function" class="headerlink" title="상수 멤버 함수 (Constant Member Function)"></a>상수 멤버 함수 (Constant Member Function)</h2><p>멤버 함수의 뒤에 붙는 const 는, 해당 멤버 함수가 상수 객체에 대해 호출될 함수임을 알려준다. 이런 함수가 중요한 이유는</p>
+<ul>
+<li><p>클래스의 인터페이스를 이해하기 좋게 하기 위함</p>
+</li>
+<li><p>const 키워드를 통해 상수 객체를 사용할 수 있도록 함.</p>
+</li>
+</ul>
+<p><em>const 키워드의 유무</em>에 따라서도 멤버 함수들은 <strong>오버로딩</strong>이 가능하다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextBlock</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>&amp; <span class="keyword">operator</span>[](<span class="built_in">std</span>::<span class="keyword">size_t</span> position) <span class="keyword">const</span> &#123; <span class="comment">// 상수 객체에 대한</span></span><br><span class="line">        <span class="keyword">return</span> text[position];                           <span class="comment">// operator[] 상수 멤버</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>&amp; <span class="keyword">operator</span>[](<span class="built_in">std</span>::<span class="keyword">size_t</span> position) &#123;             <span class="comment">// 비상수 객체에 대한</span></span><br><span class="line">        <span class="keyword">return</span> text[position];                           <span class="comment">// operator[] 멤버</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> text;</span><br><span class="line">&#125;;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">위처럼 선언된 TextBlock의 <span class="keyword">operator</span>[] 은 다음과 같이 쓸 수 있다.</span><br><span class="line"></span><br><span class="line">``` c++</span><br><span class="line"><span class="function">TextBlock <span class="title">tb</span><span class="params">(<span class="string">"Hello"</span>)</span></span>;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; tb[<span class="number">0</span>];     <span class="comment">// TextBlock::operator[] 의 비상수 멤버를 호출한다.</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">const</span> TextBlock&amp; ctb)</span> </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; ctb[<span class="number">0</span>];</span><br><span class="line">    <span class="comment">// TextBlock::operator[] 의 상수 멤버를 호출한다.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>이 때 주의할 부분은 operator[] 의 반환형이 항상 뭔가의 <em>참조형 (&amp;)</em> 을 반환한다는 것이며 참조형이 없으면 안된다. 만약 일반 char 형으로 반환하게 된다면 다음의 코드가 컴파일이 되지 않을 것이다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">TextBlock <span class="title">tb</span><span class="params">(<span class="string">"Hello"</span>)</span></span>;</span><br><span class="line">tb[<span class="number">0</span>] = <span class="string">'x'</span>;</span><br></pre></td></tr></table></figure>
+<p>기본 타입을 반환하는 함수의 반환 값을 수정하는 일은 <strong>절대로 있을 수 없다</strong>. 또한 그 뒤에는 반환 시에 ‘값에 의한 반환’을 수행하기 때문에 복제된 반환값을 수정하는 것이 불가능하다. 즉, 수정되는 값은 tb.text[0] 자체가 아니라 tb.text[0] 의 <strong>복제본</strong>이다.</p>
+<p><br></p>
+<hr>
+<h2 id="멤버-함수가-const-라는-것의-의미"><a href="#멤버-함수가-const-라는-것의-의미" class="headerlink" title="멤버 함수가 const 라는 것의 의미"></a>멤버 함수가 const 라는 것의 의미</h2><h3 id="bitwise-constness"><a href="#bitwise-constness" class="headerlink" title="bitwise constness"></a>bitwise constness</h3><p>객체의 어떤 멤버 함수가 그 자신 객체의 어떤 데이터 멤버도 건드리지 않아야 const 가 됨을 인정하는 개념. static 등의 정적 멤버는 제외한다.</p>
+<p>즉, 그 객체를 구성하는 비트 (bit) 들 중, 어떤 것도 바뀌면 안된다는 성질이다. 따라서 이 비트수준의 상수성을 사용할 경우 ( 대입 등의 ) const 인가 아닌가를 확인할 수 있다. </p>
+<p>하지만 이 비트수준 상수성에 대해서는 헛점이 존재한다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">const</span> TextBlock <span class="title">ctb</span><span class="params">(<span class="string">"Hello"</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>* pc = &amp;cctb[<span class="number">0</span>];    <span class="comment">// Char lvalue reference 을 가져와 주소를 갱신</span></span><br><span class="line">    *pc = <span class="string">'J'</span>;              <span class="comment">// cctb 는 이제 "Jello" 라는 값을 가지게 된다.</span></span><br><span class="line">                            <span class="comment">// TextBlock 자체가 const 임에도 불구하고!</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ctb 자체는 상수 객체임에도 불구하고 이런 꼼수를 통해서 상수 객체의 비트를 흩뜨릴 수 있게 된다. 따라서 이런 상황을 방지하기 위해 밑의 개념이 나오게 되었다.</p>
+<h3 id="logical-constness"><a href="#logical-constness" class="headerlink" title="logical constness"></a>logical constness</h3><p>논리적 상수성이란 개념은 한 비트도 바꿀 수 없다고 제창되는 비트 상수성에서 좀 더 느슨해진 개념이다. 상수 멤버 함수라고 해서 객체의 한 비트조차 바꿀 수 없는 것이 <strong>아니라</strong>, <strong>일부 몇 비트 정도</strong>는 바꿀 수 있되 그것을 사용자 측에서 알아채지 못하게만 하면 상수 멤버 자격이 있다는 것이다.</p>
+<p>따라서 이 논리적 상수성을 만족 시키기 위해서 기존의 객체를 다음과 같이 만들 수 있다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CTextBook</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">std</span>::<span class="keyword">size_t</span> length() <span class="keyword">const</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">char</span> *p_text;</span><br><span class="line">    <span class="keyword">mutable</span> <span class="built_in">std</span>::<span class="keyword">size_t</span> text_length;    <span class="comment">// mutable 멤버는 어떤 순간에도</span></span><br><span class="line">    <span class="keyword">mutable</span> <span class="keyword">bool</span> length_is_valid;       <span class="comment">// 수정이 가능하며, 상수 멤버 안에서도</span></span><br><span class="line">&#125;;                                      <span class="comment">// 수정이 가능하다.</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::<span class="keyword">size_t</span> CTextBook::length() <span class="keyword">const</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!length_is_valid) &#123;</span><br><span class="line">        text_length = <span class="built_in">std</span>::<span class="built_in">strlen</span>(p_text);</span><br><span class="line">        length_is_valid = <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> text_length;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p><code>mutable</code> 은 외부에서는 영향을 주지 않는 (사이드 이펙트가 없는) 타입 한정자이지만, const 와는 다르게 내부에서는 값을 변경할 수 있어 일종의 논리적 상수성을 유지할 수 있게 해준다.</p>
+<p><br></p>
+<hr>
+<h2 id="상수-멤버-및-비상수-멤버가-오버로딩-시-코드-중복-현상을-피하는-법"><a href="#상수-멤버-및-비상수-멤버가-오버로딩-시-코드-중복-현상을-피하는-법" class="headerlink" title="상수 멤버 및 비상수 멤버가 오버로딩 시, 코드 중복 현상을 피하는 법"></a>상수 멤버 및 비상수 멤버가 오버로딩 시, 코드 중복 현상을 피하는 법</h2><p>만약에 위의 짧디 짧은 코드가 매우 길어지게 된다면, 코드 중복과 함께 컴파일 및 유지 보수 등이 매우 힘들어진다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextBlock</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>&amp; <span class="keyword">operator</span>[](<span class="built_in">std</span>::<span class="keyword">size_t</span> position) <span class="keyword">const</span> &#123;</span><br><span class="line">        ... <span class="comment">// 4~50줄의 코드</span></span><br><span class="line">        <span class="keyword">return</span> text[position];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>&amp; <span class="keyword">operator</span>[](<span class="built_in">std</span>::<span class="keyword">size_t</span> position) <span class="keyword">const</span> &#123;</span><br><span class="line">        ... <span class="comment">// 4~50줄의 코드</span></span><br><span class="line">        <span class="keyword">return</span> text[position];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> text;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>이를 막기 위해서는 <em>별도의 멤버 함수를 만들어서 옮겨두고 호출하게도 할 수 있지만</em> 컴파일러가 보기에는 중복된 코드를 잠시 추상화시킨 것에 불과하다.</p>
+<p>따라서 가변 멤버 함수와 불변 멤버 함수가 오버로딩으로 존재하면, 코드 중복성을 줄이기 위해 <strong>가변 멤버 함수에서 불변 멤버 함수를 불러와 캐스팅하여 반환하도록 하는 것이 좋다.</strong><br>다만 주의해야 할 점은 상수 멤버 함수에서 일반 가변 멤버 함수를 불러서 캐스팅 후 반환을 하는 것은 금지된다. 상수 멤버 함수에서는 자기 자신을 포함해서 비트가 변경될 여지를 남기지 말아야 하는데, 상수 멤버에서 일반 함수를 불러오기 위해 <code>const_cast&lt;TextBlock&gt;</code> 을 실행하여 자기 자신을 변경할 여지를 남기기 때문이다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TextBlock</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>&amp; <span class="keyword">operator</span>[](<span class="built_in">std</span>::<span class="keyword">size_t</span> position) <span class="keyword">const</span> &#123;</span><br><span class="line">        ... <span class="comment">// 4~50줄의 코드</span></span><br><span class="line">        <span class="keyword">return</span> text[position];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">char</span>&amp; <span class="keyword">operator</span>[](<span class="built_in">std</span>::<span class="keyword">size_t</span> position) <span class="keyword">const</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">const_cast</span>&lt;<span class="keyword">char</span>&amp;&gt;(</span><br><span class="line">            <span class="keyword">static_cast</span>&lt;<span class="keyword">const</span> <span class="keyword">decltype</span>(*<span class="keyword">this</span>)&amp;&gt;(*<span class="keyword">this</span>)[position]</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> text;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Const"><span class="toc-number">1.</span> <span class="toc-text">Const</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#반복자"><span class="toc-number">1.1.</span> <span class="toc-text">반복자</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#상수-멤버-함수-Constant-Member-Function"><span class="toc-number">1.2.</span> <span class="toc-text">상수 멤버 함수 (Constant Member Function)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#멤버-함수가-const-라는-것의-의미"><span class="toc-number">1.3.</span> <span class="toc-text">멤버 함수가 const 라는 것의 의미</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#bitwise-constness"><span class="toc-number">1.3.1.</span> <span class="toc-text">bitwise constness</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#logical-constness"><span class="toc-number">1.3.2.</span> <span class="toc-text">logical constness</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#상수-멤버-및-비상수-멤버가-오버로딩-시-코드-중복-현상을-피하는-법"><span class="toc-number">1.4.</span> <span class="toc-text">상수 멤버 및 비상수 멤버가 오버로딩 시, 코드 중복 현상을 피하는 법</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/10/31/201710/20171031-1/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/10/31/201710/20171031-1/&text=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/10/31/201710/20171031-1/&title=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/10/31/201710/20171031-1/&is_video=false&description=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=const 의 사용법 (Effective C++ no.3)&body=Check out this article: http://yoursite.com/2017/10/31/201710/20171031-1/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/10/31/201710/20171031-1/&title=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/10/31/201710/20171031-1/&title=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/10/31/201710/20171031-1/&title=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/10/31/201710/20171031-1/&title=const 의 사용법 (Effective C++ no.3)"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/10/31/201710/20171031-1/&name=const 의 사용법 (Effective C++ no.3)&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-109233350-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'liliillineu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+

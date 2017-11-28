@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="시작하면서C++98 에서는 타입 추론에 관한 규칙이 템플릿 타입 추론 규칙 하나 밖에 없었다. 하지만 C++11 이후는 auto 와 decltype 및 decltype(auto)(C++14~) 가 추가되면서 여러가지로 형식이 복잡해지게 되었다. 따라서 이 세 가지를 잘 쓰기 위해서는 타">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="template, auto, decltype (Effective MDC++ No.1..3)">
+<meta property="og:url" content="http://yoursite.com/2017/11/10/201711/20171110-1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="시작하면서C++98 에서는 타입 추론에 관한 규칙이 템플릿 타입 추론 규칙 하나 밖에 없었다. 하지만 C++11 이후는 auto 와 decltype 및 decltype(auto)(C++14~) 가 추가되면서 여러가지로 형식이 복잡해지게 되었다. 따라서 이 세 가지를 잘 쓰기 위해서는 타입 추론이 어떤 규칙으로 일어나는지 확실하게 이해하지 않으면 효과적인 프">
+<meta property="og:updated_time" content="2017-11-10T06:13:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="template, auto, decltype (Effective MDC++ No.1..3)">
+<meta name="twitter:description" content="시작하면서C++98 에서는 타입 추론에 관한 규칙이 템플릿 타입 추론 규칙 하나 밖에 없었다. 하지만 C++11 이후는 auto 와 decltype 및 decltype(auto)(C++14~) 가 추가되면서 여러가지로 형식이 복잡해지게 되었다. 따라서 이 세 가지를 잘 쓰기 위해서는 타입 추론이 어떤 규칙으로 일어나는지 확실하게 이해하지 않으면 효과적인 프">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>template, auto, decltype (Effective MDC++ No.1..3)</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- rss -->
+    
+    
+</head>
+
+<body>
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/11/11/201711/20171111-0/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/11/10/201711/20171110-0/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/11/10/201711/20171110-1/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/11/10/201711/20171110-1/&text=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/11/10/201711/20171110-1/&title=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/11/10/201711/20171110-1/&is_video=false&description=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=template, auto, decltype (Effective MDC++ No.1..3)&body=Check out this article: http://yoursite.com/2017/11/10/201711/20171110-1/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/11/10/201711/20171110-1/&title=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-1/&title=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-1/&title=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-1/&title=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/11/10/201711/20171110-1/&name=template, auto, decltype (Effective MDC++ No.1..3)&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#시작하면서"><span class="toc-number">1.</span> <span class="toc-text">시작하면서</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Template-타입-추론"><span class="toc-number">2.</span> <span class="toc-text">Template 타입 추론</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ParamType-이-이거나-amp-인-경우"><span class="toc-number">2.1.</span> <span class="toc-text">ParamType 이 * 이거나 & 인 경우</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParamType-이-amp-amp-인-경우"><span class="toc-number">2.2.</span> <span class="toc-text">ParamType 이 && 인 경우</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParamType-이-일반-값-Pass-by-value-인-경우"><span class="toc-number">2.3.</span> <span class="toc-text">ParamType 이 일반 값 (Pass by value) 인 경우</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#전달하는-인자가-배열인-경우"><span class="toc-number">2.4.</span> <span class="toc-text">전달하는 인자가 배열인 경우</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#전달하는-인자가-함수인-경우"><span class="toc-number">2.5.</span> <span class="toc-text">전달하는 인자가 함수인 경우</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#출처"><span class="toc-number">3.</span> <span class="toc-text">출처</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        template, auto, decltype (Effective MDC++ No.1..3)
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Hexo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-11-10T02:20:31.000Z" itemprop="datePublished">2017-11-10</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/C/">C++</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="시작하면서"><a href="#시작하면서" class="headerlink" title="시작하면서"></a>시작하면서</h1><p><code>C++98</code> 에서는 타입 추론에 관한 규칙이 <a href="http://en.cppreference.com/w/cpp/language/template_argument_deduction" target="_blank" rel="noopener">템플릿 타입 추론 규칙</a> 하나 밖에 없었다. 하지만 <code>C++11</code> 이후는 <code>auto</code> 와 <code>decltype</code> 및 <code>decltype(auto)</code>(C++14~) 가 추가되면서 여러가지로 형식이 복잡해지게 되었다. 따라서 이 세 가지를 잘 쓰기 위해서는 타입 추론이 어떤 규칙으로 일어나는지 확실하게 이해하지 않으면 효과적인 프로그래밍이 불가능하게 되었다.</p>
+<p>타입 추론은 다음과 같은 상황에서 항상 일어난다. </p>
+<ol>
+<li>함수 템플릿 호출 지점에서 발생</li>
+<li>함수 템플릿의 함수 포인터가 사용되는 시점</li>
+<li>표현식에서 auto 가 등장하는 시점</li>
+<li>decltype 표현식의 시점 및 decltype(auto) 가 표현식에서 쓰이는 곳</li>
+</ol>
+<hr>
+<h1 id="Template-타입-추론"><a href="#Template-타입-추론" class="headerlink" title="Template 타입 추론"></a>Template 타입 추론</h1><p>위의 타입 추론이 일어나는 리스트에서 <strong>1, 2</strong>는 Template 타입 추론을 이용해 컴파일러가 적절한 타입을 써낸다. 함수 템플릿의 선언과 사용은 대체로 이런 모습이다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 1</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> To, <span class="keyword">typename</span> From&gt; <span class="function">To <span class="title">fuga</span><span class="params">(From f)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">hoge</span><span class="params">(<span class="keyword">double</span> d)</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> i = fuga&lt;<span class="keyword">int</span>&gt;(d);    <span class="comment">// calls fuga&lt;int, double&gt;(double)</span></span><br><span class="line">    <span class="keyword">char</span> c = fuga&lt;<span class="keyword">char</span>&gt;(d);  <span class="comment">// calls fuga&lt;char, double&gt;(double)</span></span><br><span class="line">    <span class="keyword">int</span>(*ptr)(<span class="keyword">float</span>) = fuga; <span class="comment">// instantiates fuga&lt;int, float&gt;(float)</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 2</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="function"><span class="keyword">void</span> <span class="title">piyo</span><span class="params">(ParamType param)</span></span>;</span><br><span class="line"></span><br><span class="line">piyo(expression);</span><br></pre></td></tr></table></figure>
+<p>2번 예시에서 이 파일을 컴파일 하는 도중에 컴파일러는 expression 을 이용해 두 가지 형식을 연역해야 하는데, 하나는 <code>T</code>의 형식이며 또 하나는 <code>ParamType</code>에 대한 형식이다. 다만 expression은 <code>const</code> 나 <code>volatile</code>와 같은 키워드나 <code>&amp;(lvalue reference qualifier)</code> 또는 <code>&amp;&amp;(rvalue reference qualifier)</code>와 같은 여러가지 예약어가 붙기 때문에 이에 따라 연역을 하는 규칙이 정해져 있다.</p>
+<p>예를 들어 컴파일러는 다음과 같이 함수 템플릿의 타입을 추론할 수 있다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> T&amp; param)</span></span>;     <span class="comment">// ParamType == const T&amp;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">0</span>;</span><br><span class="line">    f(x);                   <span class="comment">// Call f</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>이 경우 x 가 <code>int</code> 이므로 T 또한 <code>int</code> 가 된다. 하지만 ParamType 은 <code>const int&amp;</code> 가 된다. 이와 같이 형인자 T 와 실제 함수 파라미터 ParamType 간의 최종 결정되는 타입이 다를 수도 있다. 함수 템플릿의 타입 추론은 다음 3가지에서 결정된다.</p>
+<ol>
+<li>ParamType 이 <code>*</code> 이거나 <code>&amp;</code> 인 경우</li>
+<li>ParamType 이 <code>&amp;&amp;</code> 인 경우</li>
+<li>ParamType 이 <code>Pass by value</code> 인 경우</li>
+</ol>
+<hr>
+<h2 id="ParamType-이-이거나-amp-인-경우"><a href="#ParamType-이-이거나-amp-인-경우" class="headerlink" title="ParamType 이 * 이거나 &amp; 인 경우"></a>ParamType 이 <code>*</code> 이거나 <code>&amp;</code> 인 경우</h2><ol>
+<li><em>expression</em> 이 <code>&amp;</code> 이거나 <code>&amp;&amp;</code> 이면 참조 부분을 무시하고 연역한다. (녹아들어간다)</li>
+<li>그 후에 ParamType 에 대해서 패턴 매칭을 통해 최종으로 T 의 타입을 결정한다.</li>
+</ol>
+<p>밑의 예시에서 간단하게 살펴볼 수 있다.</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp; param)</span></span>;           <span class="comment">// param is l-value reference type;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>         x = <span class="number">27</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span>   cx = x;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span>&amp;  rx = x;</span><br><span class="line"></span><br><span class="line">    f(x);                   <span class="comment">// T == int, ParamType == int&amp;</span></span><br><span class="line">    f(cx);                  <span class="comment">// T == const int, ParamType == const int&amp;</span></span><br><span class="line">    f(rx);                  <span class="comment">// T == const int&amp;, ParamType == const int&amp; </span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>세번째 호출에서는 rx 형식이 <code>const int&amp;</code> 이지만 타입 추론 과정에서 참조성이 무시되므로, T 자체는 비참조로 연역이 되었음을 알아야 한다.</p>
+<p>또한, ParamType 에 <code>const</code> 나 <code>volatile</code> 이 추가되면 약간 달라진다. </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> T&amp; param)</span></span>;     <span class="comment">// param is const invarient l-value reference</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>f(x) 을 호출하면 T == int, param == cosnt int&amp; 가 된다.</li>
+<li>f(cx) 을 호출하면 T == int, param == const int&amp; 가 된다.</li>
+<li>f(rx) 을 호출하면 T == int, param == const int&amp; 가 된다.</li>
+</ol>
+<hr>
+<h2 id="ParamType-이-amp-amp-인-경우"><a href="#ParamType-이-amp-amp-인-경우" class="headerlink" title="ParamType 이 &amp;&amp; 인 경우"></a>ParamType 이 <code>&amp;&amp;</code> 인 경우</h2><p>이 경우에는 조금 생각해서 타입 추론을 해야한다. 이 경우는 두 가지 세부 케이스로 나뉠 수 있다.</p>
+<ol>
+<li>인수가 오른값이거나 오른값 참조 인 경우</li>
+<li>인수가 왼값 계열인 경우 </li>
+</ol>
+<p>1번 케이스는 그대로 맨 처음 주 케이스대로 타입 추론을 하면 되지만, 2번 케이스는 약간 생각해야 한다.</p>
+<ul>
+<li>만일 expression 이 <code>l-value</code> 계열이면, T 와 ParamType 둘 다 <code>l-value reference</code> 로 연역된다. 따라서 함수 프로토타입을 선언할 때는 <code>&amp;&amp;</code> 이지만 실제 연역되는 형식은 <code>&amp;</code> 이다.</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp;&amp; param)</span></span>;          <span class="comment">// param is r-value reference type;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>         x = <span class="number">27</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span>   cx = x;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span>&amp;  rx = x;</span><br><span class="line"></span><br><span class="line">    f(x);                   <span class="comment">// T == int&amp;, ParamType == int&amp;</span></span><br><span class="line">    f(cx);                  <span class="comment">// T == const int&amp;, ParamType == const int&amp;</span></span><br><span class="line">    f(rx);                  <span class="comment">// T == const int&amp;, ParamType == const int&amp; </span></span><br><span class="line">    f(<span class="number">27</span>);                  <span class="comment">// T == int, ParamType == int&amp;&amp;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="ParamType-이-일반-값-Pass-by-value-인-경우"><a href="#ParamType-이-일반-값-Pass-by-value-인-경우" class="headerlink" title="ParamType 이 일반 값 (Pass by value) 인 경우"></a>ParamType 이 일반 값 (Pass by value) 인 경우</h2><p>이 때는 함수에 전달되는 인수의 복사본은 전달되는 인수와는 다른 완전한 새로운 객체이기 때문에, 다음과 같은 규칙이 적용될 수 있다.</p>
+<ol>
+<li>이전같이 만일 expression 의 형식이 <code>&amp;</code>, <code>&amp;&amp;</code> 이면 참조 부분은 무시된다.</li>
+<li>참조성을 무시한 후에 <code>const</code> 와 <code>volatile</code> 또한 무시한다. </li>
+<li><code>const _T* const</code> 의 타입이 전달될 경우는 <code>const _T*</code> 가 추론이 된다.</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T param)</span></span>;            <span class="comment">// param is r-value reference type;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span>         x = <span class="number">27</span>;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span>   cx = x;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">int</span>&amp;  rx = x;</span><br><span class="line"></span><br><span class="line">    f(x);                   <span class="comment">// T == int&amp;, ParamType == int&amp;</span></span><br><span class="line">    f(cx);                  <span class="comment">// T == const int&amp;, ParamType == const int&amp;</span></span><br><span class="line">    f(rx);                  <span class="comment">// T == const int&amp;, ParamType == const int&amp; </span></span><br><span class="line">    f(<span class="number">27</span>);                  <span class="comment">// T == int, ParamType == int&amp;&amp;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* <span class="keyword">const</span> ptr = <span class="string">"Fun with Pointers"</span>;</span><br><span class="line">    f(ptr);                 <span class="comment">// T == const char*, ParamType = const char*</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="전달하는-인자가-배열인-경우"><a href="#전달하는-인자가-배열인-경우" class="headerlink" title="전달하는 인자가 배열인 경우"></a>전달하는 인자가 배열인 경우</h2><p>asdf</p>
+<hr>
+<h2 id="전달하는-인자가-함수인-경우"><a href="#전달하는-인자가-함수인-경우" class="headerlink" title="전달하는 인자가 함수인 경우"></a>전달하는 인자가 함수인 경우</h2><p>asdf</p>
+<hr>
+<h1 id="출처"><a href="#출처" class="headerlink" title="출처"></a>출처</h1><ol>
+<li>Effective Modern C++ (O’REILLY)</li>
+<li><a href="http://en.cppreference.com/w/cpp/language/template_argument_deduction#Other_contexts" target="_blank" rel="noopener">http://en.cppreference.com/w/cpp/language/template_argument_deduction#Other_contexts</a></li>
+<li><a href="https://cpprefjp.github.io/lang/cpp11/auto.html" target="_blank" rel="noopener">https://cpprefjp.github.io/lang/cpp11/auto.html</a></li>
+</ol>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        </div>
+    </div>
+
+
+
+    </div>
+    
+      <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#시작하면서"><span class="toc-number">1.</span> <span class="toc-text">시작하면서</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Template-타입-추론"><span class="toc-number">2.</span> <span class="toc-text">Template 타입 추론</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ParamType-이-이거나-amp-인-경우"><span class="toc-number">2.1.</span> <span class="toc-text">ParamType 이 * 이거나 & 인 경우</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParamType-이-amp-amp-인-경우"><span class="toc-number">2.2.</span> <span class="toc-text">ParamType 이 && 인 경우</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ParamType-이-일반-값-Pass-by-value-인-경우"><span class="toc-number">2.3.</span> <span class="toc-text">ParamType 이 일반 값 (Pass by value) 인 경우</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#전달하는-인자가-배열인-경우"><span class="toc-number">2.4.</span> <span class="toc-text">전달하는 인자가 배열인 경우</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#전달하는-인자가-함수인-경우"><span class="toc-number">2.5.</span> <span class="toc-text">전달하는 인자가 함수인 경우</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#출처"><span class="toc-number">3.</span> <span class="toc-text">출처</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2017/11/10/201711/20171110-1/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2017/11/10/201711/20171110-1/&text=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2017/11/10/201711/20171110-1/&title=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2017/11/10/201711/20171110-1/&is_video=false&description=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=template, auto, decltype (Effective MDC++ No.1..3)&body=Check out this article: http://yoursite.com/2017/11/10/201711/20171110-1/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2017/11/10/201711/20171110-1/&title=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-1/&title=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-1/&title=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2017/11/10/201711/20171110-1/&title=template, auto, decltype (Effective MDC++ No.1..3)"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2017/11/10/201711/20171110-1/&name=template, auto, decltype (Effective MDC++ No.1..3)&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2017 John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/">Category</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/liliilli">Projects</a></li>
+         
+          <li><a href="/Search/">Search</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-109233350-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'liliillineu';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+
