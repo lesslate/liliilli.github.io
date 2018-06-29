@@ -9,7 +9,7 @@ comments: false
 
 # Reverse OOP?
 
-{% youtube https://www.youtube.com/watch?v=GnWASmocihE %}
+<!-- {% youtube https://www.youtube.com/watch?v=GnWASmocihE %} -->
 
 Pope Kim님의 최신 영상을 보던 중에 꽤 흥미가 가는 설계 패턴이 있어서 한번 쭉 보게 되었다. 이 패턴은 다형성을 좀 특이하게 구현해서 런타임에 불필요한 코드를 만드는 것을 막는다. 흔히 동적 다형성을 구현한다고 하면 모든 자식 클래스들의 행동을 공유하는 베이스 클래스가 있고, 그 베이스 클래스를 자식 클래스들이 `public` 과 같은 접근 지정자로 상속을 해서 구현한다. 
 
