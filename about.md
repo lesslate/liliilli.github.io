@@ -41,6 +41,7 @@ This framework is on development now and doesn't support GUI development environ
 
 This game supports local ranking from 1st to 10th, and sound, smooth animations. The higher stage, faster cup's movement and given time each stage.
 
+* [Video Link](https://youtu.be/9F6PCKdwCeY)
 * [Download Link](https://drive.google.com/file/d/1lt_Vt-ibajQ3NhgdYubdyTCU4uJISojU/view?usp=sharing)
 
 
