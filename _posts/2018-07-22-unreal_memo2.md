@@ -50,3 +50,4 @@ comments: false
 ![img_bindfunction]({{ "/assets/201807/img22_bindfunction.png" | absolute_url }})
 
 과 같이 적용하면 된다. 물론 `GameManager` 는 다른 곳에서 레퍼런스를 지정을 해줘야 할 것이다.
+
