@@ -58,7 +58,7 @@ comments: false
 
 따라서 다음과 같이 `Modulator` 노드를 삽입해서 피치 등을 조절할 수 있게 되었다.
 
-![img_modulator]({{ "/assets/201807/img25_cue1.jpg" | absolute_url }})
+![img_modulator]({{ "/assets/201807/img25_cue1.JPG" | absolute_url }})
 
 이렇게 만들어진 `Cue` 는 일반 사운드와 더불어 `Animation BP`, 일반 `Blueprint` 등에서 사용할 수 있다.
 
@@ -96,13 +96,13 @@ comments: false
 
 그리고 `Audio Component` 는 디테일 뷰어에서 감쇠의 거리를 설정하는 것도 가능하다.
 
-![img_soundbp]({{ "/assets/201807/img25_atten1.jpg" | absolute_url }})
+![img_soundbp]({{ "/assets/201807/img25_atten1.JPG" | absolute_url }})
 
 1차 거리, 2차 경계점 거리 안에서는 볼륨이 페이드가 될 것이다. 하지만 지금 이 프로젝트에서는 구름이 화면 밖의 밑쪽 컬리젼에 들어갈 때 자동으로 `AActor` 의 인스턴스를 사라지게 하는데, 이 때 `APawn` 이 감쇠 거리에 있다면 컷아웃이 되버린다.
 
 이 컷아웃을 방지하기 위해서 `AActor` 가 제공하는 이벤트인 `FadeOut` 에서 이 경우를 대비해 볼륨의 페이드 아웃을 설정해야 한다.
 
-![img_fadeout]({{ "/assets/201807/img25_fadeout1.jpg" | absolute_url }})
+![img_fadeout]({{ "/assets/201807/img25_fadeout1.JPG" | absolute_url }})
 
 `Set Volume Multiplier` 와 `Timeline` 을 사용해 볼륨을 프레임마다 조절하면서 객체를 사라지게 할 수 있다.
 
@@ -110,7 +110,7 @@ comments: false
 
 ### Sound Class 와 Sound Mix
 
-![img_soundclass]({{ "https://koenig-media.raywenderlich.com/uploads/2017/10/28.jpg" | absolute_url }})
+![img_soundclass]({{ "https://koenig-media.raywenderlich.com/uploads/2017/10/28.JPG" | absolute_url }})
 
 * `Sound Class` 는 여러 개의 사운드를 그룹화하기 위한 간단한 방법이다. 그리고 `Sound Class` 는 각 그룹별의 볼륨, 피치를 조절하는 것이 가능한데 이 때 `Sound Mix` 라는 것이 필요하다. 
 

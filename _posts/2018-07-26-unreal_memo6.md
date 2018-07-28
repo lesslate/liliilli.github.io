@@ -40,7 +40,7 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 
 `BT` 을 만드려면 `Add New > Artificial Intelligence` 에서 `BT` 을 생성한다. 이름 프리픽스는 `BT_` 가 좋다. Behavior Tree 에디터는 다음과 같다.
 
-![img_behavior]({{ "https://koenig-media.raywenderlich.com/uploads/2017/12/unreal-ai-07-650x352.jpg" | absolute_url }})
+![img_behavior]({{ "https://koenig-media.raywenderlich.com/uploads/2017/12/unreal-ai-07-650x352.JPG" | absolute_url }})
 
 1. `Behavior Tree` 는 `Root` 로부터 시작되는 행동 트리를 만든다.
 2. `Details` 는 `Behavior Tree` 의 각 행동 노드의 자세한 속성을 보여준다.
@@ -59,7 +59,7 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 
 예를 들어서 `APawn` 을 움직이고 `Enemy` 를 향해 회전한 뒤에 공격을 한다고 하면, 다음과 같이 행동 트리를 구성할 수 있다.
 
-![img_unreal_ai]({{ "https://koenig-media.raywenderlich.com/uploads/2017/12/unreal-ai-09.jpg" | absolute_url }})
+![img_unreal_ai]({{ "https://koenig-media.raywenderlich.com/uploads/2017/12/unreal-ai-09.JPG" | absolute_url }})
 
 > [Behavior Tree Node Reference: Composites](https://docs.unrealengine.com/en-us/Engine/AI/BehaviorTrees/NodeReference/Composites)
 
@@ -71,7 +71,7 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 
 다음과 같이 행동 트리를 구성한다. 
 
-![img26_bt_moverandomly]({{ "/assets/201807/img26_bt_moverandomly.jpg" | absolute_url }})
+![img26_bt_moverandomly]({{ "/assets/201807/img26_bt_moverandomly.JPG" | absolute_url }})
 
 여기서 왼쪽에서 오른쪽으로 순서를 지키는 것이 중요하다. 각 `Node` 에 순서가 나와있기 때문에 이걸 잘 이용하자.
 
@@ -89,7 +89,7 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 
 이를 만들려면 `Add New > Artificial Intelligence > Blackboard` 을 사용해서 `BB_` 계의 BP 을 만든다.
 
-![img_unreal_bb]({{ "https://koenig-media.raywenderlich.com/uploads/2017/12/unreal-ai-12.jpg" | absolute_url }})
+![img_unreal_bb]({{ "https://koenig-media.raywenderlich.com/uploads/2017/12/unreal-ai-12.JPG" | absolute_url }})
 
 `Blackboard` 에디터는 위와 같다.
 
@@ -111,7 +111,7 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 1. `Behavior Tree` 의 툴바에서 `Add Service` 을 사용해서 `BTSerivce_` 로 시작하는 서비스를 만든다. 이는 `Content Viewer` 에서 볼 수 있으며 이름도 바꿀 수 있다.
 2. 만들어진 `Service` 을 노드에 붙이기 위해서는 해당 노드에 오른쪽 클릭을 하고 `Add Service` 로 서비스를 추가한다.
 
-![img26_service]({{ "/assets/201807/img26_service.jpg" | absolute_url }})
+![img26_service]({{ "/assets/201807/img26_service.JPG" | absolute_url }})
 
 이제 `Service` 의 `Event Graph` 에 들어가서 현재 컨트롤되고 있는 `APawn` 의 랜덤 로케이션을 가지고 오면 된다.
 
@@ -119,11 +119,11 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 
 > `Event Receive Actvation` 역시 사용할 수 있지만, 이 경우에는 해당 `BT` 가 붙어있는 `APawn` 의 레퍼런스를 가지고 오지 않는다.
 
-![img26_service_event]({{ "/assets/201807/img26_service_event.jpg" | absolute_url }})
+![img26_service_event]({{ "/assets/201807/img26_service_event.JPG" | absolute_url }})
 
 물론 반경을 적절하게 설정해줘야 임의 무작위 포지션을 가지고 올 수 있다.
 
-![img26_navmesh]({{ "/assets/201807/img26_navmesh.jpg" | absolute_url }})
+![img26_navmesh]({{ "/assets/201807/img26_navmesh.JPG" | absolute_url }})
 
 * 주의할 점은, `GetRandomPointInNavigableRadius` 와 같이 `Navigable` 이 붙은 이벤트 노드는 `NavMesh` 라고 부르는 말 그대로 내비게이션이 가능한 공간 안에서만 동작한다. 현재 프로젝트는 `NavMesh` 을 미리 만들었지만 임의 프로젝트를 할 경우에는 `NavMesh` 을 직접 만들어줘야 한다.
 
@@ -141,7 +141,7 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 1. 우선 `Service` 의 `Blueprint` 에서 변수를 만든다. 이 때 해당 변수의 타입은 `Blackboard Key Selector` 라고 하는 것으로 하고, 밑의 `Instance Editable` 을 사용해서 해당 블루프린트의 객체에서 `public` 접근 권한으로 값 접근을 할 수 있는 것을 활성화한다.
 2. 그 후에 `Service` 의 그래프에서 `Set Blackboard Value as ...` 을 사용해 키에 값을 저장한다.
 
-![img26_service_key]({{ "/assets/201807/img26_service_key.jpg" | absolute_url }})
+![img26_service_key]({{ "/assets/201807/img26_service_key.JPG" | absolute_url }})
 
 3. 이제 `Behavior Tree` 의 디테일 뷰에서 `Blackboard` 을 설정한다. 그러면 `TargetLocation` 이라는 변수가 자동으로 생성되어 `Blackboard Key Selector` 로 저장된 `public` 한 데이터가 위쪽 상단 `BT` 에서 사용할 수 있게 된다.
 
@@ -159,7 +159,7 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 
 여기서는 `AI Controller` 이 각종 `APawn` 을 제어하기 떄문에 `AI Controller` 에 `AI Perception` 을 추가해줘야 한다. 그리고 다른 `APawn` 이 움직이는 것을 인식하도록 해야한다. 따라서 `AI Sight config` 을 추가한다.
 
-![img26_aiperception]({{ "/assets/201807/img26_aiperception.jpg" | absolute_url }})
+![img26_aiperception]({{ "/assets/201807/img26_aiperception.JPG" | absolute_url }})
 
 `AI Sight Config` 은 다음과 같은 옵션을 제공하고 있다.
 
@@ -169,7 +169,7 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 
 기본으로 `AI Perception` 은 다른 `Team` 에 설정된 `APawn` 을 감지한다. 그런데 현재 이 프로젝트에서 생성되는 `APawn` 들은 팀이 없고 죄다 `Neutral` 을 유지한다. 그래서 `Detection by Affiliation` 에서 중립 역시 클릭을 해서 중립 캐릭터도 볼 수 있도록 한다.
 
-![img26_perceptionview]({{ "/assets/201807/img26_perceptionview.jpg" | absolute_url }})
+![img26_perceptionview]({{ "/assets/201807/img26_perceptionview.JPG" | absolute_url }})
 
 * `AI Perception` `Behavior Tree` `AI Controller` 가 적용된 `APawn` 이 어떻게 행동하는 가를 볼려면 런타임 게임 뷰에서 `'` 키를 눌러서 `AI Debug Mode` 에 들어간 후에 넘패드 `1``2``3``4` 키로 확인할 수 있다.
 
@@ -179,13 +179,13 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 
 인식한 `APawn` 의 레퍼런스 역시 `Blackboard` 에서 참조할 수 있다.
 
-![img26_objref]({{ "https://koenig-media.raywenderlich.com/uploads/2017/12/unreal-ai-30.jpg" | absolute_url }})
+![img26_objref]({{ "https://koenig-media.raywenderlich.com/uploads/2017/12/unreal-ai-30.JPG" | absolute_url }})
 
 그리고 나서 `Behavior Tree` 에 `Enemy` 레퍼런스에 움직일 수 있도록 한다. 이 경우 `Controller` 에서 해당 `Enemy` 을 갱신하기 때문에 별도의 서비스가 필요없다.
 
 이제 `Controller` 에서 `AIPerception` 이 업데이트 되었을 때 현재 바인딩된 `Blackboard` 에서 키를 가지고 와서 키가 `nullptr` 인가를 확인 한 후에 현재 인식된 액터 중 타겟인 것을 하나 가지고 와서 바인딩한다.
 
-![img26_controller]({{ "/assets/201807/img26_controller.jpg" | absolute_url }})
+![img26_controller]({{ "/assets/201807/img26_controller.JPG" | absolute_url }})
 
 ### 별도의 `BTTask` 만들기
 
@@ -193,17 +193,17 @@ AI 캐릭터를 만들기 위해서는 비유로 3 가지 요소가 필요하다
 
 `Behavior Tree` 에서 노드를 만들지 않고 `BTTask_` 의 독립된 형태로 `Task` 을 만들 수 있다. 여기서는 `BTTask_BlueprintBase` 을 만든다.
 
-![unreal_ai_35]({{ "https://koenig-media.raywenderlich.com/uploads/2017/12/unreal-ai-35.jpg" | absolute_url }})
+![unreal_ai_35]({{ "https://koenig-media.raywenderlich.com/uploads/2017/12/unreal-ai-35.JPG" | absolute_url }})
 
 그리고 `BTTask_BlueprintBase` 태스크 블루프린트 안에서 다음과 같이 설정을 한다.
 
-![img26_attackflag]({{ "/assets/201807/img26_attackflag.jpg" | absolute_url }})
+![img26_attackflag]({{ "/assets/201807/img26_attackflag.JPG" | absolute_url }})
 
 여기서 중요한 것은, 일반 태스크와는 다르게 직접 생성한 `Task` 는 `Finish Execute` 로 태스크가 어떻게 끝나는 지를 결정해줘야 다음 태스크로 넘어가거나 현재 태스크에서 행동을 끝낼 수 있다.
 
 그 후에 해당 태스크를 행동 트리에서 추가한다.
 
-![img26_bt_semifinal]({{ "/assets/201807/img26_bt_semifinal.jpg" | absolute_url }})
+![img26_bt_semifinal]({{ "/assets/201807/img26_bt_semifinal.JPG" | absolute_url }})
 
 그런데 돌려놓고 테스트를 해보면 분명 `Attack` 시퀀스가 실행되서 `APawn` 이 공격을 바로 해야함에도 불구하고 그렇지 않고 `Roam` 이 먼저 실행되어 보이는 것을 알 수 있다. 
 
