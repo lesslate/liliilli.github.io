@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "github_blog\\neuromantic"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"xiosbase": "cpp",
+			"xlocale": "cpp"
+		}
+	}
+}
